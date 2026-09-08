@@ -3,7 +3,6 @@ package org.treino.oficina.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.treino.oficina.dtos.cliente.ClienteResponseDTO;
 import org.treino.oficina.dtos.veiculo.VeiculoRequestDTO;
 import org.treino.oficina.dtos.veiculo.VeiculoResponseDTO;
 import org.treino.oficina.entities.Cliente;
@@ -48,8 +47,7 @@ public class VeiculoService {
 
     @Transactional(readOnly = true)
     public List<VeiculoResponseDTO> verTodosVeiculos(UUID idCliente){
-        Cliente cliente = procurarCliente(idCliente);
-        return veiculoRepository.findAllByCliente(cliente).stream().map(this::toResponseDTO).toList();
+        return veiculoRepository.findAllByClienteId(idCliente).stream().map(this::toResponseDTO).toList();
     }
 
     @Transactional
@@ -66,21 +64,16 @@ public class VeiculoService {
     }
 
     private VeiculoResponseDTO toResponseDTO(Veiculo veiculo){
-        return new VeiculoResponseDTO(veiculo.getId(), veiculo.getPlaca(), toClienteResponseDTO(veiculo.getCliente()));
+        return new VeiculoResponseDTO(veiculo.getId(), veiculo.getPlaca());
     }
 
-
-    private ClienteResponseDTO toClienteResponseDTO(Cliente cliente){
-        return new ClienteResponseDTO(cliente.getId(), cliente.getNome(), cliente.getCpf());
-    }
 
     private Veiculo procurarVeiculo(Long id){
         return veiculoRepository.findById(id).orElseThrow(()-> new VeiculoNaoEncontradoException("Esse veiculo não foi encontrado na base de dados!"));
     }
 
     private void validarVeiculo(UUID idCliente, Veiculo veiculo){
-        Cliente cliente = procurarCliente(idCliente);
-        if(!veiculo.getCliente().getId().equals(cliente.getId())){
+        if(!veiculo.getCliente().getId().equals(idCliente)){
             throw new VeiculoNaoPertencenteException("Esse veiculo pertence a outra pessoa.");
         }
     }

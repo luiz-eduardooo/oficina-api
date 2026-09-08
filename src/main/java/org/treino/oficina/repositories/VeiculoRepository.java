@@ -5,10 +5,11 @@ import org.treino.oficina.entities.Cliente;
 import org.treino.oficina.entities.Veiculo;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface VeiculoRepository extends JpaRepository<Veiculo, Long> {
 
     boolean existsByPlaca(String placa);
 
-    List<Veiculo> findAllByCliente(Cliente cliente);
+    List<Veiculo> findAllByClienteId(UUID idCliente);
 }
