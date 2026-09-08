@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "veiculo")
 @Getter
@@ -23,6 +26,9 @@ public class Veiculo {
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, mappedBy = "veiculo")
+    private final List<OrdemServico> ordemServicoList = new ArrayList<>();
+
     public Veiculo(String placa){
         this.placa = placa;
     }
@@ -32,7 +38,9 @@ public class Veiculo {
         cliente.adicionarVeiculos(this);
     }
 
-
+    public void adicionarOrdemServico(OrdemServico ordemServico){
+        this.ordemServicoList.add(ordemServico);
+    }
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;
