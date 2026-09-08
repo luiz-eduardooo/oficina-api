@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: oficina
+  jpa:
+    show-sql: true
+    open-in-view: false
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: validate
+  datasource:
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+
