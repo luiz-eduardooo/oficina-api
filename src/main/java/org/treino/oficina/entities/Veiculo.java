@@ -32,6 +32,7 @@ public class Veiculo {
         cliente.adicionarVeiculos(this);
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;

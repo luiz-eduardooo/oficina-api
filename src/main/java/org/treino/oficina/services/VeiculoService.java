@@ -32,6 +32,8 @@ public class VeiculoService {
             throw new PlacaJaExistenteException("Essa placa ja foi cadastrada na base de dados!");
         }
         Veiculo veiculo = new Veiculo(dto.placa());
+        Cliente cliente = procurarCliente(idCliente);
+        veiculo.atribuirAoCliente(cliente);
         Veiculo veiculoSalvo = veiculoRepository.save(veiculo);
         return toResponseDTO(veiculoSalvo);
     }
@@ -55,6 +57,7 @@ public class VeiculoService {
 
         Veiculo veiculo = procurarVeiculo(idVeiculo);
         validarVeiculo(idCliente, veiculo);
+        veiculo.getCliente().removerVeiculo(veiculo);
         veiculoRepository.delete(veiculo);
     }
 

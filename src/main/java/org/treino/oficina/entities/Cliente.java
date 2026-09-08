@@ -37,6 +37,10 @@ public class Cliente {
     public void adicionarVeiculos(Veiculo veiculo){
         this.veiculos.add(veiculo);
     }
+
+    public void removerVeiculo(Veiculo veiculo){
+        this.veiculos.remove(veiculo);
+    }
     @Override
     public boolean equals(Object obj) {
         if(this == obj) return true;
