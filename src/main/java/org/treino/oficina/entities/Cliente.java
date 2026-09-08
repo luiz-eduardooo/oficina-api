@@ -26,7 +26,7 @@ public class Cliente {
     @Column(nullable = false)
     private String cpf;
 
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "id_cliente")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL, mappedBy = "cliente")
     private final List<Veiculo> veiculos = new ArrayList<>();
 
     public Cliente(String nome, String cpf) {
