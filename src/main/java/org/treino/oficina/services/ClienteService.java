@@ -26,7 +26,7 @@ public class ClienteService {
 
 
     @Transactional(readOnly = true)
-    public ClienteResponseDTO verClientPorId(UUID id){
+    public ClienteResponseDTO verClientePorId(UUID id){
         Cliente cliente = procurarCliente(id);
         return toResponseDTO(cliente);
     }
