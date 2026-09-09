@@ -10,10 +10,7 @@ import org.treino.oficina.dtos.itens.ItemServicoRequestDTO;
 import org.treino.oficina.dtos.ordemServico.OrdemServicoResponseDTO;
 import org.treino.oficina.entities.*;
 import org.treino.oficina.enums.StatusOs;
-import org.treino.oficina.exceptions.OrdemServicoJaAbertaException;
-import org.treino.oficina.exceptions.OsNaoEncontradaException;
-import org.treino.oficina.exceptions.PecaNaoEncontradaException;
-import org.treino.oficina.exceptions.VeiculoNaoEncontradoException;
+import org.treino.oficina.exceptions.*;
 import org.treino.oficina.repositories.OrdemServicoRepository;
 import org.treino.oficina.repositories.PecaRepository;
 import org.treino.oficina.repositories.VeiculoRepository;
@@ -60,7 +57,8 @@ public class OrdemServicoService {
     @Transactional
     public OrdemServicoResponseDTO fecharOs(Long idOs){
         OrdemServico ordemServico = procurarOs(idOs);
-        BigDecimal subTotal = calcularItensOs(ordemServico);
+        validarOs(ordemServico);
+        BigDecimal subTotal = calcularValorItensBaixandoEstoqueOs(ordemServico);
         ordemServico.definirDataFechamento(Instant.now());
         ordemServico.adicionarValorTotal(subTotal);
         ordemServico.fecharOrdemServico();
@@ -75,7 +73,7 @@ public class OrdemServicoService {
 
 
 
-    private BigDecimal calcularItensOs(OrdemServico ordemServico){
+    private BigDecimal calcularValorItensBaixandoEstoqueOs(OrdemServico ordemServico){
         BigDecimal subTotal = new BigDecimal("0");
         for(Item item : ordemServico.getItems()){
             if(item instanceof ItemPeca itemPeca){
@@ -91,6 +89,15 @@ public class OrdemServicoService {
 
     private List<ItemResponseDTO> toListItemResponseDTOS(List<Item> itens){
         return itens.stream().map(this::toItemResponseDTO).toList();
+    }
+
+    private void validarOs(OrdemServico ordemServico){
+        if(ordemServico.getStatus() == StatusOs.CANCELADA || ordemServico.getStatus() == StatusOs.FECHADA){
+            throw new OrdemDeServicoFinalizadaException("Essa ordem de serviço ja foi finalizada.");
+        }
+        if(ordemServico.getItems().size() <= 0){
+            throw new OrdemVaziaException("Essa ordem de serviço não tem nenhum item.");
+        }
     }
 
     private ItemResponseDTO toItemResponseDTO(Item item){
