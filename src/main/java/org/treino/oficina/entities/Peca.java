@@ -36,4 +36,8 @@ public class Peca {
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
     }
+
+    public void retirarEstoque(int quantidade){
+        this.quantidadeEstoque-=quantidade;
+    }
 }

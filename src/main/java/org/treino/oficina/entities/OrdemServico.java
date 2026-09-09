@@ -47,6 +47,18 @@ public class OrdemServico {
         veiculo.adicionarOrdemServico(this);
     }
 
+    public void adicionarValorTotal(BigDecimal valor){
+        this.valorTotal = valor;
+    }
+
+    public void definirDataFechamento(Instant instant){
+        this.dataFechamento = instant;
+    }
+
+    public void fecharOrdemServico(){
+        this.status = StatusOs.FECHADA;
+    }
+
     public void adicionarItem(Item item){
         if(this.status == StatusOs.FECHADA || this.status == StatusOs.CANCELADA){
             throw new OrdemDeServicoFinalizadaException("Essa ordem de serviço ja foi fechada ou cancelada.");

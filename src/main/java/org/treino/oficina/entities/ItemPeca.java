@@ -17,7 +17,7 @@ public class ItemPeca extends Item {
     @JoinColumn(name = "id_peca", nullable = false)
     private Peca peca;
 
-    private int quantidade;
+    private Integer quantidade;
 
 
 
@@ -26,6 +26,8 @@ public class ItemPeca extends Item {
         this.peca = peca;
         this.quantidade = quantidade;
     }
+
+
 
     @Override
     public BigDecimal calcularSubTotal() {
