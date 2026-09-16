@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.treino.oficina.exceptions.item.EstoqueInsuficienteException;
 
 import java.math.BigDecimal;
 
@@ -38,6 +39,9 @@ public class Peca {
     }
 
     public void retirarEstoque(int quantidade){
+        if(quantidade > this.quantidadeEstoque){
+            throw new EstoqueInsuficienteException("Estoque insuficiente para o pedido");
+        }
         this.quantidadeEstoque-=quantidade;
     }
 }

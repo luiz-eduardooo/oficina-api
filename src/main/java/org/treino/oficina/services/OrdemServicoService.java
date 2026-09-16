@@ -47,6 +47,7 @@ public class OrdemServicoService {
         OrdemServico ordemServico = procurarOs(idOs);
         ItemServico itemServico = new ItemServico(dto.valor(), dto.descricao(), dto.horas());
         ordemServico.adicionarItem(itemServico);
+        ordemServicoRepository.flush();
         return toResponseDTO(ordemServico);
     }
 
@@ -56,6 +57,7 @@ public class OrdemServicoService {
         Peca peca = pecaRepository.findById(dto.pecaId()).orElseThrow(()-> new PecaNaoEncontradaException("Essa peça não foi encontrada na base de dados!"));
         ItemPeca itemPeca = new ItemPeca(peca, dto.quantidade());
         ordemServico.adicionarItem(itemPeca);
+        ordemServicoRepository.flush();
         return toResponseDTO(ordemServico);
     }
 
@@ -100,7 +102,7 @@ public class OrdemServicoService {
         if(ordemServico.getStatus() == StatusOs.CANCELADA || ordemServico.getStatus() == StatusOs.FECHADA){
             throw new OrdemDeServicoFinalizadaException("Essa ordem de serviço ja foi finalizada.");
         }
-        if(ordemServico.getItems().size() <= 0){
+        if(ordemServico.getItems().isEmpty()){
             throw new OrdemVaziaException("Essa ordem de serviço não tem nenhum item.");
         }
     }

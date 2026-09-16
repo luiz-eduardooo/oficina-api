@@ -15,6 +15,7 @@ import org.treino.oficina.exceptions.OS.OrdemServicoJaAbertaException;
 import org.treino.oficina.exceptions.OS.OrdemVaziaException;
 import org.treino.oficina.exceptions.OS.OsNaoEncontradaException;
 import org.treino.oficina.exceptions.cliente.ClienteNaoEncontradoException;
+import org.treino.oficina.exceptions.item.EstoqueInsuficienteException;
 import org.treino.oficina.exceptions.item.PecaNaoEncontradaException;
 import org.treino.oficina.exceptions.veiculo.PlacaJaExistenteException;
 import org.treino.oficina.exceptions.veiculo.VeiculoNaoEncontradoException;
@@ -33,6 +34,12 @@ public class GlobalExceptionHandler {
         ApiError apiError = new ApiError(Instant.now(),"Erro interno", HttpStatus.INTERNAL_SERVER_ERROR.value(), request.getDescription(false));
         log.error("Erro não tratado", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiError);
+    }
+
+    @ExceptionHandler(EstoqueInsuficienteException.class)
+    public ResponseEntity<ApiError> estoqueInsuficiente(EstoqueInsuficienteException ex, WebRequest request){
+        ApiError apiError = toApiError(ex, HttpStatus.BAD_REQUEST, request);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
     }
 
 
