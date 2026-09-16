@@ -88,6 +88,15 @@ public class OrdemServicoService {
         return toResponseDTO(ordemServico);
     }
 
+    public OrdemServicoResponseDTO verOrdemServico(Long idOs){
+        OrdemServico ordemServico = procurarOs(idOs);
+        return toResponseDTO(ordemServico);
+    }
+
+    public List<OrdemServicoResponseDTO> listarOrdensServico(){
+        return ordemServicoRepository.findAll().stream().map(this::toResponseDTO).toList();
+    }
+
 
     private OrdemServico procurarOs(Long idOs){
         return ordemServicoRepository.findById(idOs).orElseThrow(()-> new OsNaoEncontradaException("Essa ordem de serviço não foi encontrada na base de dados!"));

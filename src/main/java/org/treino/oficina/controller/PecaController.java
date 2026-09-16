@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.treino.oficina.dtos.itens.EstoqueDTO;
 import org.treino.oficina.dtos.peca.PecaRequestDTO;
 import org.treino.oficina.dtos.peca.PecaResponseDTO;
 import org.treino.oficina.services.PecaService;
@@ -29,6 +30,11 @@ public class PecaController {
     @GetMapping
     public ResponseEntity<List<PecaResponseDTO>> verTodasPecas(){
         return ResponseEntity.ok(pecaService.verTodasPecas());
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<PecaResponseDTO> atualizarEstoque(@PathVariable Long id, @RequestBody EstoqueDTO dto){
+        return ResponseEntity.ok(pecaService.atualizarEstoque(id, dto));
     }
 
 

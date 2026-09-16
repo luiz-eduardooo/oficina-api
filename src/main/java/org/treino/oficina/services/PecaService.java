@@ -2,10 +2,13 @@ package org.treino.oficina.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.treino.oficina.dtos.itens.EstoqueDTO;
 import org.treino.oficina.dtos.peca.PecaRequestDTO;
 import org.treino.oficina.dtos.peca.PecaResponseDTO;
 import org.treino.oficina.entities.Peca;
 import org.treino.oficina.exceptions.item.PecaNaoEncontradaException;
+import org.treino.oficina.exceptions.item.QuantidadeInvalidaException;
 import org.treino.oficina.repositories.PecaRepository;
 
 import java.util.List;
@@ -23,7 +26,7 @@ public class PecaService {
 
 
     public PecaResponseDTO verPeca(Long idPeca){
-        Peca peca = pecaRepository.findById(idPeca).orElseThrow(()-> new PecaNaoEncontradaException("Essa peça não foi encontrada na base de dados!"));
+        Peca peca = procurarPeca(idPeca);
         return toResponseDTO(peca);
     }
 
@@ -31,6 +34,17 @@ public class PecaService {
         return pecaRepository.findAll().stream().map(this::toResponseDTO).toList();
     }
 
+
+    @Transactional
+    public PecaResponseDTO atualizarEstoque(Long idPeca, EstoqueDTO dto){
+        Peca peca = procurarPeca(idPeca);
+        peca.atualizarEstoque(dto.quantidade());
+        return toResponseDTO(peca);
+    }
+
+    private Peca procurarPeca(Long idPeca){
+        return pecaRepository.findById(idPeca).orElseThrow(()-> new PecaNaoEncontradaException("Essa peça não foi encontrada na base de dados!"));
+    }
 
     private PecaResponseDTO toResponseDTO(Peca peca){
         return new PecaResponseDTO(peca.getId(), peca.getNome(), peca.getCodigo(), peca.getPreco(), peca.getQuantidadeEstoque());

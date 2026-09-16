@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.treino.oficina.dtos.itens.EstoqueDTO;
 import org.treino.oficina.exceptions.item.EstoqueInsuficienteException;
+import org.treino.oficina.exceptions.item.QuantidadeInvalidaException;
 
 import java.math.BigDecimal;
 
@@ -36,6 +38,13 @@ public class Peca {
         this.codigo = codigo;
         this.preco = preco;
         this.quantidadeEstoque = quantidadeEstoque;
+    }
+
+    public void atualizarEstoque(int quantidade){
+        if(quantidade < 0){
+            throw new QuantidadeInvalidaException("Digite uma quantidade valida para o estoque!");
+        }
+        this.quantidadeEstoque = quantidade;
     }
 
     public void retirarEstoque(int quantidade){

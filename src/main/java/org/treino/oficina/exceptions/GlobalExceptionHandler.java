@@ -18,6 +18,7 @@ import org.treino.oficina.exceptions.cliente.ClienteNaoEncontradoException;
 import org.treino.oficina.exceptions.item.EstoqueInsuficienteException;
 import org.treino.oficina.exceptions.item.ItemNaoEncontradoException;
 import org.treino.oficina.exceptions.item.PecaNaoEncontradaException;
+import org.treino.oficina.exceptions.item.QuantidadeInvalidaException;
 import org.treino.oficina.exceptions.veiculo.PlacaJaExistenteException;
 import org.treino.oficina.exceptions.veiculo.VeiculoNaoEncontradoException;
 import org.treino.oficina.exceptions.veiculo.VeiculoNaoPertencenteException;
@@ -50,6 +51,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
     }
 
+    @ExceptionHandler(QuantidadeInvalidaException.class)
+    public ResponseEntity<ApiError> quantidadeInvalidaException(QuantidadeInvalidaException ex, WebRequest request){
+        ApiError apiError = toApiError(ex, HttpStatus.BAD_REQUEST, request);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiError);
+    }
     @ExceptionHandler(ItemNaoEncontradoException.class)
     public ResponseEntity<ApiError> itemNaoEncontrado(ItemNaoEncontradoException ex, WebRequest request){
         ApiError apiError = toApiError(ex, HttpStatus.NOT_FOUND, request);

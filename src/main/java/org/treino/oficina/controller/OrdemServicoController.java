@@ -35,6 +35,11 @@ public class OrdemServicoController {
     public ResponseEntity<OrdemServicoResponseDTO> adicionarItemServico(@PathVariable Long idOs, @Valid @RequestBody ItemServicoRequestDTO dto){
         return ResponseEntity.status(201).body(ordemServicoService.adicionarItemServico(idOs, dto));
     }
+
+    @DeleteMapping("/{idOs}/{idItem}")
+    public ResponseEntity<OrdemServicoResponseDTO> deletarItem(@PathVariable Long idOs, @PathVariable Long idItem){
+        return ResponseEntity.status(200).body(ordemServicoService.retirarItemOs(idOs, idItem));
+    }
 }
 
 
