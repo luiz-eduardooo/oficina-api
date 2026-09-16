@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.treino.oficina.dtos.cliente.ClienteRequestDTO;
 import org.treino.oficina.dtos.cliente.ClienteResponseDTO;
 import org.treino.oficina.entities.Cliente;
-import org.treino.oficina.exceptions.ClienteNaoEncontradoException;
+import org.treino.oficina.exceptions.cliente.ClienteNaoEncontradoException;
 import org.treino.oficina.repositories.ClienteRepository;
 
 import java.util.List;

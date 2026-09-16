@@ -1,4 +1,4 @@
-package org.treino.oficina.exceptions;
+package org.treino.oficina.exceptions.cliente;
 
 public class ClienteNaoEncontradoException extends RuntimeException {
     public ClienteNaoEncontradoException(String message) {

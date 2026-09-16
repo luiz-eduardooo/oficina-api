@@ -7,10 +7,10 @@ import org.treino.oficina.dtos.veiculo.VeiculoRequestDTO;
 import org.treino.oficina.dtos.veiculo.VeiculoResponseDTO;
 import org.treino.oficina.entities.Cliente;
 import org.treino.oficina.entities.Veiculo;
-import org.treino.oficina.exceptions.ClienteNaoEncontradoException;
-import org.treino.oficina.exceptions.PlacaJaExistenteException;
-import org.treino.oficina.exceptions.VeiculoNaoEncontradoException;
-import org.treino.oficina.exceptions.VeiculoNaoPertencenteException;
+import org.treino.oficina.exceptions.cliente.ClienteNaoEncontradoException;
+import org.treino.oficina.exceptions.veiculo.PlacaJaExistenteException;
+import org.treino.oficina.exceptions.veiculo.VeiculoNaoEncontradoException;
+import org.treino.oficina.exceptions.veiculo.VeiculoNaoPertencenteException;
 import org.treino.oficina.repositories.ClienteRepository;
 import org.treino.oficina.repositories.VeiculoRepository;
 

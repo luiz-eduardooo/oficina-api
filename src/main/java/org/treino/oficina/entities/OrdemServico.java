@@ -5,13 +5,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.treino.oficina.enums.StatusOs;
-import org.treino.oficina.exceptions.OrdemDeServicoFinalizadaException;
+import org.treino.oficina.exceptions.OS.OrdemDeServicoFinalizadaException;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.treino.oficina.dtos.peca.PecaRequestDTO;
 import org.treino.oficina.dtos.peca.PecaResponseDTO;
 import org.treino.oficina.entities.Peca;
-import org.treino.oficina.exceptions.PecaNaoEncontradaException;
+import org.treino.oficina.exceptions.item.PecaNaoEncontradaException;
 import org.treino.oficina.repositories.PecaRepository;
 
 import java.util.List;
