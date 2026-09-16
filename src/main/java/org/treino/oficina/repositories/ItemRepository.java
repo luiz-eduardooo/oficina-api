@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.treino.oficina.entities.Item;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
+    boolean existsByIdAndOrdemServicoId(Long id, Long idOs);
 }

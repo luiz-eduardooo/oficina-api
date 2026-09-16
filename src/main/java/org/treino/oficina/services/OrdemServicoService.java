@@ -14,8 +14,10 @@ import org.treino.oficina.exceptions.OS.OrdemDeServicoFinalizadaException;
 import org.treino.oficina.exceptions.OS.OrdemServicoJaAbertaException;
 import org.treino.oficina.exceptions.OS.OrdemVaziaException;
 import org.treino.oficina.exceptions.OS.OsNaoEncontradaException;
+import org.treino.oficina.exceptions.item.ItemNaoEncontradoException;
 import org.treino.oficina.exceptions.item.PecaNaoEncontradaException;
 import org.treino.oficina.exceptions.veiculo.VeiculoNaoEncontradoException;
+import org.treino.oficina.repositories.ItemRepository;
 import org.treino.oficina.repositories.OrdemServicoRepository;
 import org.treino.oficina.repositories.PecaRepository;
 import org.treino.oficina.repositories.VeiculoRepository;
@@ -30,6 +32,8 @@ public class OrdemServicoService {
     private final OrdemServicoRepository ordemServicoRepository;
     private final VeiculoRepository veiculoRepository;
     private final PecaRepository pecaRepository;
+    private final ItemRepository itemRepository;
+
 
     @Transactional
     public OrdemServicoResponseDTO criarOs(Long idVeiculo){
@@ -69,6 +73,18 @@ public class OrdemServicoService {
         ordemServico.definirDataFechamento(Instant.now());
         ordemServico.adicionarValorTotal(subTotal);
         ordemServico.fecharOrdemServico();
+        return toResponseDTO(ordemServico);
+    }
+
+    @Transactional
+    public OrdemServicoResponseDTO retirarItemOs(Long idOs, Long idItem){
+        if(!itemRepository.existsByIdAndOrdemServicoId(idItem, idOs)){
+            throw new ItemNaoEncontradoException("Esse item não foi encontrado dentro dessa ordem de serviço!");
+        }
+        OrdemServico ordemServico = procurarOs(idOs);
+        validarOs(ordemServico);
+        Item item = itemRepository.findById(idItem).orElseThrow(()-> new ItemNaoEncontradoException("Esse item não foi encontrado na base de dados!"));
+        ordemServico.getItems().remove(item);
         return toResponseDTO(ordemServico);
     }
 

@@ -35,4 +35,16 @@ public abstract class Item {
     protected Item(BigDecimal valorUnitario){
         this.valorUnitario = valorUnitario;
     }
+
+    @Override
+    public int hashCode() {
+        return Item.class.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj) return true;
+        if(!(obj instanceof Item outro)) return false;
+        return id!= null && id.equals(outro.getId());
+    }
 }

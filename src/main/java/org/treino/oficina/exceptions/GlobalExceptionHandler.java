@@ -16,6 +16,7 @@ import org.treino.oficina.exceptions.OS.OrdemVaziaException;
 import org.treino.oficina.exceptions.OS.OsNaoEncontradaException;
 import org.treino.oficina.exceptions.cliente.ClienteNaoEncontradoException;
 import org.treino.oficina.exceptions.item.EstoqueInsuficienteException;
+import org.treino.oficina.exceptions.item.ItemNaoEncontradoException;
 import org.treino.oficina.exceptions.item.PecaNaoEncontradaException;
 import org.treino.oficina.exceptions.veiculo.PlacaJaExistenteException;
 import org.treino.oficina.exceptions.veiculo.VeiculoNaoEncontradoException;
@@ -47,6 +48,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> ordemServicoFinalizada(OrdemDeServicoFinalizadaException ex, WebRequest request){
         ApiError apiError = toApiError(ex, HttpStatus.CONFLICT, request);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiError);
+    }
+
+    @ExceptionHandler(ItemNaoEncontradoException.class)
+    public ResponseEntity<ApiError> itemNaoEncontrado(ItemNaoEncontradoException ex, WebRequest request){
+        ApiError apiError = toApiError(ex, HttpStatus.NOT_FOUND, request);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 
     @ExceptionHandler(OrdemServicoJaAbertaException.class)
